@@ -89,12 +89,8 @@ class DBStorage:
         object_list = []
         if cls is None:
             for value in classes.values():
-                object_list += self.__session.query(value).all()
-            for obj in object_list:
-                object_count += 1
+                object_count += self.__session.query(value).count()
         else:
-            objs = self.__session.query(classes[cls]).all()
-            for obj in objs:
-                if cls == obj.__class__.__name__:
-                    object_count += 1
+            if cls in classes:
+                object_count += self.__session.query(classes[cls]).count()
         return object_count
