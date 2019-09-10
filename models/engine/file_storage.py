@@ -73,7 +73,7 @@ class FileStorage:
         """get object based on class and id"""
         objs = self.all(cls)
         obj = cls + '.' + id
-        if objs[obj]:
+        if objs.get(obj):
             return objs[obj]
         else:
             return None
