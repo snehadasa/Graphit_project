@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """script that starts a Flask web application"""
 
-
+import os
 from flask import Flask, jsonify
 from models import storage
 from api.v1.views import app_views
@@ -22,6 +22,6 @@ def app_teardown(self):
     storage.close()
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',
-            port=5000,
+    app.run(host=os.getenv('HBNB_API_HOST') or '0.0.0.0',
+            port=os.getenv('HBNB_API_PORT') or 5000,
             threaded=True)
