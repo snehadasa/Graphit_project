@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 @app_views.route('/amenities', methods=['GET'], strict_slashes=False)
 def get_amenities():
-    """Retrieves the list of all State objects"""
+    """Retrieves the list of all Amenity objects"""
     amenities = storage.all('Amenity')
     amenities_list = []
     for amenity in amenities.values():

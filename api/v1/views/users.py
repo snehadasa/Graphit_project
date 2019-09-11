@@ -55,7 +55,9 @@ def post_user():
         abort(400, {"Missing email"})
     if 'password' not in result:
         abort(400, {"Missing password"})
-    obj = Amenity(name=result['name'])
+    obj = User()
+    for key, value in result.items():
+        setattr(obj, key, value)
     storage.new(obj)
     storage.save()
     return jsonify(obj.to_dict()), 201
@@ -68,7 +70,7 @@ def put_user(user_id=None):
     result = request.get_json()
     if not result:
         abort(400, {"Not a JSON"})
-    obj = storage.get('User', amenity_id)
+    obj = storage.get('User', user_id)
     if obj is None:
         abort(404)
     invalid_keys = ["id", "email", "created_at", "updated_at"]
