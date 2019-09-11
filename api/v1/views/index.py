@@ -12,7 +12,7 @@ from models.review import Review
 from models.state import State
 from models.user import User
 
-#app = Flask(__name__)
+app = Flask(__name__)
 
 
 @app_views.route('/status')
