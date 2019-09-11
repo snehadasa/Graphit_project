@@ -64,7 +64,7 @@ def put_state(state_id=None):
         if key != "id" and "created_at" and "updated_at":
             setattr(obj, key, value)
     storage.save()
-    return jsonify(obj.to_dict()), 201
+    return jsonify(obj.to_dict()), 200
 
-"""if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000)"""
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000)
