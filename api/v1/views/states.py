@@ -34,8 +34,9 @@ def delete_state(state_id=None):
         obj = storage.get('State', state_id)
         storage.delete(obj)
         storage.save()
-    except:
-        abort(404)
+    except Exception as e:
+        print(e)
+#        abort(404)
     return jsonify({}), 200
 
 
