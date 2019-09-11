@@ -24,22 +24,23 @@ def get_states():
 def get_state(state_id=None):
     """Retrieves a State object with the id linked to it"""
     state_dict = storage.all('State')
-    try:
-        return jsonify(state_dict['State' + "." + state_id].to_dict()), 200
-    except:
+    state = state_dict.get('State' + "." + state_id)
+    if state is None:
         abort(404)
+    else:
+        return jsonify(state.to_dict()), 200
 
 
 @app_views.route('/states/<state_id>',
                  methods=['DELETE'], strict_slashes=False)
 def delete_state(state_id=None):
     """Deletes a State object"""
-    try:
-        obj = storage.get('State', state_id)
+    obj = storage.get('State', state_id)
+    if obj is None:
+        abort(404)
+    else:
         storage.delete(obj)
         storage.save()
-    except:
-        abort(404)
     return jsonify({}), 200
 
 
@@ -48,9 +49,9 @@ def post_state():
     """Creates a State"""
     result = request.get_json()
     if not result:
-        abort(400, {"message": "Not a JSON"})
+        abort(400, {"Not a JSON"})
     if 'name' not in result:
-        abort(400, {"message": "Missing name"})
+        abort(400, {"Missing name"})
     obj = State(name=result['name'])
     storage.new(obj)
     storage.save()
@@ -62,7 +63,7 @@ def put_state(state_id=None):
     """Updates a State object"""
     result = request.get_json()
     if not result:
-        abort(400, {"message": "Not a JSON"})
+        abort(400, {"Not a JSON"})
     obj = storage.get('State', state_id)
     if obj is None:
         abort(404)
