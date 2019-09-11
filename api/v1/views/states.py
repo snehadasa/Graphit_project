@@ -17,7 +17,7 @@ def get_states():
     state_list = []
     for state in states.values():
         state_list.append(state.to_dict())
-    return jsonify(state_list)
+    return jsonify(state_list), 200
 
 
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
@@ -25,7 +25,7 @@ def get_state(state_id=None):
     """Retrieves a State object with the id linked to it"""
     state_dict = storage.all('State')
     try:
-        return jsonify(state_dict['State' + "." + state_id].to_dict())
+        return jsonify(state_dict['State' + "." + state_id].to_dict()), 200
     except:
         abort(404)
 
@@ -66,12 +66,9 @@ def put_state(state_id=None):
     obj = storage.get('State', state_id)
     if obj is None:
         abort(404)
+    invalid_keys = ["id", "created_at", "updated_at"]
     for key, value in result.items():
-        if key != "id" and "created_at" and "updated_at":
+        if key not in invalid_keys:
             setattr(obj, key, value)
     storage.save()
     return jsonify(obj.to_dict()), 200
-
-if __name__ == "__main__":
-    app.run(host=os.getenv('HBNB_API_HOST') or '0.0.0.0',
-            port=os.getenv('HBNB_API_PORT') or 5000)
