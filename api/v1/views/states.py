@@ -34,9 +34,8 @@ def delete_state(state_id=None):
         obj = storage.get('State', state_id)
         storage.delete(obj)
         storage.save()
-    except Exception as e:
-        print(e)
-#        abort(404)
+    except:
+        abort(404)
     return jsonify({}), 200
 
 
@@ -66,3 +65,6 @@ def put_state(state_id=None):
             setattr(obj, key, value)
     storage.save()
     return jsonify(obj.to_dict()), 201
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000)
