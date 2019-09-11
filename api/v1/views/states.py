@@ -66,5 +66,5 @@ def put_state(state_id=None):
     storage.save()
     return jsonify(obj.to_dict()), 201
 
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000)
+"""if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000)"""
