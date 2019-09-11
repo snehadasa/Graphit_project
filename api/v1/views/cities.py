@@ -55,15 +55,15 @@ def delete_city(city_id=None):
                  strict_slashes=False)
 def post_city(state_id=None):
     """Creates a City"""
+    state_dict = storage.all('State')
+    state = state_dict.get('State' + "." + state_id)
+    if state is None:
+        abort(404)
     result = request.get_json()
     if result is None:
         return jsonify({"error": "Not a JSON"}), 400
     if 'name' not in result:
         return jsonify({"error": "Missing name"}), 400
-    state_dict = storage.all('State')
-    state = state_dict.get('State' + "." + state_id)
-    if state is None:
-        abort(404)
     obj = City(name=result['name'], state_id=state_id)
     storage.new(obj)
     storage.save()
