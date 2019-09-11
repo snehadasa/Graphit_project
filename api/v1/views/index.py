@@ -21,6 +21,7 @@ def status():
                      "status": "OK"
                    })
 
+
 @app_views.route('/stats')
 def stat():
     class_dict = {"amenities": "Amenity", "cities": "City", "places": "Place",

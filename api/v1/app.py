@@ -15,6 +15,7 @@ def page_not_found(e):
     """Error handling, 404"""
     return jsonify({"error": "Not found"}), 404
 
+
 @app.teardown_appcontext
 def app_teardown(self):
     """remove the current SQLAlchemy Session"""
