@@ -60,10 +60,10 @@ def post_city(state_id=None):
     if state is None:
         abort(404)
     result = request.get_json()
-    if not result:
-        abort(400, {"Not a JSON"})
+    if result is None:
+        return jsonify({"error": "Not a JSON"}), 400
     if 'name' not in result:
-        abort(400, {"Missing name"})
+        return jsonify({"error": "Missing name"}), 400
     obj = City(name=result['name'], state_id=state_id)
     storage.new(obj)
     storage.save()
@@ -74,8 +74,8 @@ def post_city(state_id=None):
 def put_city(city_id=None):
     """Updates a City object"""
     result = request.get_json()
-    if not result:
-        abort(400, {"Not a JSON"})
+    if result is None:
+        return jsonify({"error": "Not a JSON"}), 400
     obj = storage.get('City', city_id)
     if obj is None:
         abort(404)
