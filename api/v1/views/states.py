@@ -17,6 +17,7 @@ def get_states():
         state_list.append(state.to_dict())
     return jsonify(state_list)
 
+
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
 def get_state(state_id=None):
     state_dict = storage.all('State')
@@ -25,27 +26,31 @@ def get_state(state_id=None):
     except:
         abort(404)
 
-@app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
+
+@app_views.route('/states/<state_id>',
+                 methods=['DELETE'], strict_slashes=False)
 def delete_state(state_id=None):
     try:
         obj = storage.get('State', state_id)
         storage.delete(obj)
         storage.save()
-    except Exception as E:
-        print (E)
+    except:
+        abort(404)
     return jsonify({}), 200
+
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def post_state():
     result = request.get_json()
     if not result:
         abort(400, {"message": "Not a JSON"})
-    if not 'name' in result:
+    if 'name' not in result:
         abort(400, {"message": "Missing name"})
-    obj = State(name = result['name'])
+    obj = State(name=result['name'])
     storage.new(obj)
     storage.save()
     return jsonify(obj.to_dict()), 201
+
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
 def put_state(state_id=None):
@@ -53,7 +58,7 @@ def put_state(state_id=None):
     if not result:
         abort(400, {"message": "Not a JSON"})
     obj = storage.get('State', state_id)
-    if obj == None:
+    if obj is None:
         abort(404)
     for key, value in result.items():
         if key != "id" and "created_at" and "updated_at":
