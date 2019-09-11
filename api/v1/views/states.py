@@ -11,6 +11,7 @@ app = Flask(__name__)
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
 def get_states():
+    """Retrieves the list of all State objects"""
     states = storage.all('State')
     state_list = []
     for state in states.values():
@@ -20,6 +21,7 @@ def get_states():
 
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
 def get_state(state_id=None):
+    """Retrieves a State object with the id linked to it"""
     state_dict = storage.all('State')
     try:
         return jsonify(state_dict['State' + "." + state_id].to_dict())
@@ -30,6 +32,7 @@ def get_state(state_id=None):
 @app_views.route('/states/<state_id>',
                  methods=['DELETE'], strict_slashes=False)
 def delete_state(state_id=None):
+    """Deletes a State object"""
     try:
         obj = storage.get('State', state_id)
         storage.delete(obj)
@@ -41,6 +44,7 @@ def delete_state(state_id=None):
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def post_state():
+    """Creates a State"""
     result = request.get_json()
     if not result:
         abort(400, {"message": "Not a JSON"})
@@ -54,6 +58,7 @@ def post_state():
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
 def put_state(state_id=None):
+    """Updates a State object"""
     result = request.get_json()
     if not result:
         abort(400, {"message": "Not a JSON"})
