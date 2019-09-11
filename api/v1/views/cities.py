@@ -16,15 +16,15 @@ app = Flask(__name__)
                  strict_slashes=False)
 def get_cities(state_id=None):
     """Retrieves the list of all City objects"""
-    cities = storage.all('City')
+    states = storage.all('State')
+    state = states.get('State' + '.' + state_id)
+    if state is None:
+        abort(404)
     city_list = []
-    flag = 0
+    cities = storage.all('City')
     for city in cities.values():
         if city.state_id == state_id:
             city_list.append(city.to_dict())
-            flag = 1
-    if flag == 0:
-        abort(404)
     return jsonify(city_list), 200
 
 
