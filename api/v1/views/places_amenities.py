@@ -52,7 +52,7 @@ def post_amenity_to_place(place_id=None, amenity_id=None):
     if amenity_obj is None:
         abort(404)
     if amenity_obj in place_obj.amenities:
-        return jsonify({amenity_object}), 200
+        return jsonify(amenity_object.to_dict()), 200
     else:
         place_obj.amenities.append(amenity_obj)
         return jsonify(amenity_object.to_dict()), 201
