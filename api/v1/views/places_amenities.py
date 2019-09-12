@@ -23,28 +23,36 @@ def get_amenity_for_place(place_id=None):
     return jsonify(amenities_list), 200
 
 
-@app_views.route('/amenities/<amenity_id>',
+@app_views.route('/places/<place_id>/amenities/<amenity_id>',
                  methods=['DELETE'], strict_slashes=False)
-def delete_amenity_to_place(amenity_id=None):
+def delete_amenity_to_place(place_id=None, amenity_id=None):
     """Deletes a Amenity object"""
-    obj = storage.get('Amenity', amenity_id)
-    if obj is None:
+    place_obj = storage.get('Place', place_id)
+    if place_obj is None:
+        abort(404)
+    amenity_obj = storage.get('Amenity', amenity_id)
+    if amenity_obj is None:
+        abort(404)
+    if amenity_obj not in place_obj.amenities:
         abort(404)
     else:
-        storage.delete(obj)
+        storage.delete(amenity_obj)
         storage.save()
-    return jsonify({}), 200
+        return jsonify({}), 200
 
 
-@app_views.route('/amenities', methods=['POST'], strict_slashes=False)
-def post_amenity_to_place():
-    """Creates a Amenity"""
-    result = request.get_json()
-    if not result:
-        abort(400, {"Not a JSON"})
-    if 'name' not in result:
-        abort(400, {"Missing name"})
-    obj = Amenity(name=result['name'])
-    storage.new(obj)
-    storage.save()
-    return jsonify(obj.to_dict()), 201
+@app_views.route('/places/<place_id>/amenities/<amenity_id>', methods=['POST'],
+                 strict_slashes=False)
+def post_amenity_to_place(place_id=None, amenity_id=None):
+    """Links an Amenity object to a Place"""
+    place_obj = storage.get('Place', place_id)
+    if place_obj is None:
+        abort(404)
+    amenity_obj = storage.get('Amenity', amenity_id)
+    if amenity_obj is None:
+        abort(404)
+    if amenity_obj in place_obj.amenities:
+        return jsonify({amenity_object}), 200
+    else:
+        place_obj.amenities.append(amenity_obj)
+        return jsonify({amenity_object}), 201
