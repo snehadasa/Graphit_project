@@ -51,10 +51,11 @@ def post_amenity_to_place(place_id=None, amenity_id=None):
     amenity_obj = storage.get('Amenity', amenity_id)
     if amenity_obj is None:
         abort(404)
-    if amenity_obj in place_obj.amenities:
-        return jsonify(amenity_object.to_dict()), 200
-    else:
-        place_obj.amenities.append(amenity_obj)
-        storage.save()
-        storage.close()
-        return jsonify(amenity_object.to_dict()), 201
+    if place_obj and amenity_obj:
+        if amenity_obj in place_obj.amenities:
+            return jsonify(amenity_object.to_dict()), 200
+        else:
+            place_obj.amenities.append(i"amenity_obj")
+            storage.save()
+            storage.close()
+            return jsonify(amenity_object.to_dict()), 201
