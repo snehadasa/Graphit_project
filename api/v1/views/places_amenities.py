@@ -57,4 +57,4 @@ def post_amenity_to_place(place_id=None, amenity_id=None):
         place_obj.amenities.append(amenity_obj)
         storage.save()
         storage.close()
-    return jsonify(amenity_object.to_dict()), 201
+        return jsonify(amenity_object.to_dict()), 201
