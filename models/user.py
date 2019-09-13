@@ -25,10 +25,11 @@ class User(BaseModel, Base):
         first_name = ""
         last_name = ""
 
+
     def __setattr__(self, key, value):
         """Security improvements!"""
         if key == 'password':
-            value = md5(value.encode()).hexdigest()
+            v = md5(value.encode()).hexdigest()
         super().__setattr__(self, key, value)
 
     def __init__(self, *args, **kwargs):
