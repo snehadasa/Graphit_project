@@ -53,10 +53,8 @@ def post_amenity_to_place(place_id=None, amenity_id=None):
         abort(404)
     amenity_ids = []
     for amenity in place_obj.amenities:
-        amenity_ids += amenity.id
-    if amenity_id in amenity_ids:
-        return jsonify(amenity_object.to_dict()), 200
-    else:
-        place_obj.amenities.append(amenity_obj)
-        storage.save()
-        return jsonify(amenity_object.to_dict()), 201
+        if amenity.id == amenity_obj.id:
+            return jsonify(amenity_object.to_dict()), 200
+    place_obj.amenities.append(amenity_obj)
+    storage.save()
+    return jsonify(amenity_object.to_dict()), 201
