@@ -6,12 +6,15 @@ Contains the class DBStorage
 import models
 from models.base_model import BaseModel, Base
 from models.product import Product
+from models.customer import Customer
+#from models.customer_product_mapping import CustomerProductMapping
 from os import getenv
 import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-classes = {"Product": Product}
+classes = {"Customer": Customer, "Product": Product}
+#           "CustomerProductMapping": CustomerProductMapping}
 
 
 class DBStorage:
@@ -21,18 +24,16 @@ class DBStorage:
 
     def __init__(self):
         """Instantiate a DBStorage object"""
-        HBNB_MYSQL_USER = getenv('HBNB_MYSQL_USER')
-        HBNB_MYSQL_PWD = getenv('HBNB_MYSQL_PWD')
-        HBNB_MYSQL_HOST = getenv('HBNB_MYSQL_HOST')
-        HBNB_MYSQL_DB = getenv('HBNB_MYSQL_DB')
-        HBNB_ENV = getenv('HBNB_ENV')
+        GRAPHIT_MYSQL_USER = getenv('GRAPHIT_MYSQL_USER')
+        GRAPHIT_MYSQL_PWD = getenv('GRAPHIT_MYSQL_PWD')
+        GRAPHIT_MYSQL_HOST = getenv('GRAPHIT_MYSQL_HOST')
+        GRAPHIT_MYSQL_DB = getenv('GRAPHIT_MYSQL_DB')
+        GRAPHIT_ENV = getenv('GRAPHIT_ENV')
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
-                                      format(HBNB_MYSQL_USER,
-                                             HBNB_MYSQL_PWD,
-                                             HBNB_MYSQL_HOST,
-                                             HBNB_MYSQL_DB))
-        if HBNB_ENV == "test":
-            Base.metadata.drop_all(self.__engine)
+                                      format(GRAPHIT_MYSQL_USER,
+                                             GRAPHIT_MYSQL_PWD,
+                                             GRAPHIT_MYSQL_HOST,
+                                             GRAPHIT_MYSQL_DB))
 
     def all(self, cls=None):
         """query on the current database session"""
