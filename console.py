@@ -7,10 +7,11 @@ import models
 from models.base_model import BaseModel
 from models.product import Product
 from models.customer import Customer
-#from models.customer_product_mapping import CustomerProductMapping
+from models.customer_product_mapping import CustomerProductMapping
 import shlex  # for splitting the line along spaces except in double quotes
 
-classes = { "BaseModel": BaseModel,  "Product": Product, "Customer": Customer}
+classes = {"BaseModel": BaseModel,  "Product": Product, "Customer": Customer,
+           "CustomerProductMapping": CustomerProductMapping}
 
 
 class HBNBCommand(cmd.Cmd):

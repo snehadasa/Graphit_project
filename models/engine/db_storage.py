@@ -7,14 +7,14 @@ import models
 from models.base_model import BaseModel, Base
 from models.product import Product
 from models.customer import Customer
-#from models.customer_product_mapping import CustomerProductMapping
+from models.customer_product_mapping import CustomerProductMapping
 from os import getenv
 import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-classes = {"Customer": Customer, "Product": Product}
-#           "CustomerProductMapping": CustomerProductMapping}
+classes = {"Customer": Customer, "Product": Product,
+           "CustomerProductMapping": CustomerProductMapping}
 
 
 class DBStorage:
